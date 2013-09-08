@@ -1,6 +1,8 @@
 package com.nikola.despotoski.drawerlayouttoggles;
 
 
+import com.nineoldandroids.view.ViewHelper;
+
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,9 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 /* Author: Nikola Despotoski
  * Email: nikola[dot]despotoski(at)gmail[dot]com
  * 
@@ -60,40 +59,17 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 	}
 	public void syncState() {
 		mDrawerLayout.measure(MeasureSpec.EXACTLY, MeasureSpec.EXACTLY);
-	    onDrawerSlide(mDrawerLayout, isOpen()? 1.0f : 0.0f);
+	   this.onDrawerSlide(mDrawerLayout, isOpen()? 1.0f : 0.0f);
 		
 	}
-
-	private AnimationListener mMoveAnimationListener = new AnimationListener(){
-
-		@Override
-		public void onAnimationEnd(Animation animation) {
-			mContentView.setX(((MoveTranslateAnimation)animation).getToXDelta());
-		}
-
-		@Override
-		public void onAnimationRepeat(Animation animation) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onAnimationStart(Animation animation) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	};
 
 	private void updateContentMoved(float translationX) {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
 			mContentView.setTranslationX(translationX);
 			mContentView.setX(mContentView.getTranslationX());
 		}else{
-			MoveTranslateAnimation translateAnimation = new MoveTranslateAnimation(0, translationX, 0,0);
-			translateAnimation.setDuration(0);
-			translateAnimation.setAnimationListener(mMoveAnimationListener);
-			mContentView.startAnimation(translateAnimation);
+			ViewHelper.setTranslationX(mContentView, translationX);
+			ViewHelper.setX(mContentView, translationX);
 		}
 		
 	}
@@ -150,22 +126,6 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		syncState();
-		
-	}
-
-	private class MoveTranslateAnimation extends TranslateAnimation{
-
-		private float mToXDelta= 0.0f;
-
-		public float getToXDelta() {
-			return mToXDelta;
-		}
-
-		public MoveTranslateAnimation(float fromXDelta, float toXDelta,
-				float fromYDelta, float toYDelta) {
-			super(fromXDelta, toXDelta, fromYDelta, toYDelta);
-			this.mToXDelta  = toXDelta; 
-		}
 		
 	}
 
