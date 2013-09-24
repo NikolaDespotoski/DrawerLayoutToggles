@@ -37,6 +37,13 @@ Usage of multiple toggles (without ActionBarDrawerToogle)
 <pre><code>        mFadingToggle = new FadingDrawerToggle(mDrawerLayout);
         mDrawerLayout.setDrawerListener(mFadingToggle);
 </code></pre>
+  Individual Usage 3:
+<pre><code> 
+        float targetAngle = 90f;
+        mRotatingHomeIconToggle = new HomeIconDrawerToggle(this, mDrawerLayout, targetAngle);
+        mDrawerLayout.setDrawerListener(mRotatingHomeIconToggle);
+</code></pre>
+
 
 
 #Dependencies:
