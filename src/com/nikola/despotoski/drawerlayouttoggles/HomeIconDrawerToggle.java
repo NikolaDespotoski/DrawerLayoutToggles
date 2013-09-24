@@ -1,9 +1,7 @@
 package com.nikola.despotoski.drawerlayouttoggles;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
@@ -16,11 +14,19 @@ public class HomeIconDrawerToggle implements DrawerToggle{
 	private View mLogoView;
 	private DrawerLayout mDrawerLayout;
 	private float mPreviousDegrees;
+	private float mTargetRotateAngle;
 
 	public HomeIconDrawerToggle(Activity a, DrawerLayout d){
 		mActivity = a;
 		mDrawerLayout = d;
 		mLogoView = mActivity.findViewById(android.R.id.home);
+		mTargetRotateAngle = 90f;
+	}
+	public HomeIconDrawerToggle(Activity a, DrawerLayout d, float rotateToAngle){
+		mActivity = a;
+		mDrawerLayout = d;
+		mLogoView = mActivity.findViewById(android.R.id.home);
+		mTargetRotateAngle = rotateToAngle;
 	}
 	@Override
 	public void onDrawerClosed(View arg0) {
@@ -29,12 +35,12 @@ public class HomeIconDrawerToggle implements DrawerToggle{
 
 	@Override
 	public void onDrawerOpened(View arg0) {
-		mPreviousDegrees = 90f;
+		mPreviousDegrees = mTargetRotateAngle;
 	}
 
 	@Override
 	public void onDrawerSlide(View arg0, float slideOffset) {
-		float degrees = 90*slideOffset;
+		float degrees = mTargetRotateAngle*slideOffset;
 		animateToDegrees(degrees);
 		
 	}
@@ -66,12 +72,11 @@ public class HomeIconDrawerToggle implements DrawerToggle{
 		}
 		return false;
 	}
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 	private void animateToDegrees(float deg){
 		RotateAnimation animRotate = new RotateAnimation(mPreviousDegrees, deg,
 			    RotateAnimation.RELATIVE_TO_SELF, 0.5f, 
 			    RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-
 		animRotate.setDuration(0);
 		animRotate.setFillAfter(true);
 		mLogoView.startAnimation(animRotate);
