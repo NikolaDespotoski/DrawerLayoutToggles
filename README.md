@@ -44,10 +44,16 @@ Usage of multiple toggles (without ActionBarDrawerToogle)
         mDrawerLayout.setDrawerListener(mRotatingHomeIconToggle);
 </code></pre>
 
+  Individual Usage [4](https://lh5.googleusercontent.com/-Z7MY1g0axCY/UkuKDwH8gsI/AAAAAAAANdA/JNmzATCXbGI/w287-h510-no/device-2013-10-02-044139.png):
+<pre><code> 
+        mBlurToggle = new BlurShadowDrawerToggle(this, mDrawerLayout, findViewById(R.id.content_frame),GravityCompat.START);
+        mDrawerLayout.setDrawerListener(mBlurToggle);
+</code></pre>
 
 
 #Dependencies:
-* Android Support Library v4
+* Android Support Library v4 and v7
+* RenderScript support v8
 * Knowledge how to use [ActionBarDrawerToggle](https://developer.android.com/reference/android/support/v4/app/ActionBarDrawerToggle.html)
 
 #Notes:
