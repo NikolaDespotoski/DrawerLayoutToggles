@@ -73,6 +73,7 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 				blurIfNotPreviously();
 				if(isOpen()){
 					mBlurred = false;
+					onDrawerSlide(null, 1.0f);
 					mDrawerLayout.invalidateDrawable(mBlurDrawable);
 					
 				}else{
@@ -97,7 +98,7 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 
 	@Override
 	public void onDrawerOpened(View arg0) {
-		
+		mDrawerLayout.invalidateDrawable(mBlurDrawable);
 	}
 
 	public static boolean isValidRadius(int radius){
@@ -141,8 +142,12 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
-		// TODO Auto-generated method stub
-		
+		if(isOpen()){
+			mBlurred = false;
+			onDrawerSlide(null, 1.0f);
+			mDrawerLayout.invalidateDrawable(mBlurDrawable);
+			
+		}
 	}
 
 	@Override
@@ -157,6 +162,9 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 		if(mBlurRadius != blurRadius && forceReBlur && mDrawable!=null){
 			this.mBlurRadius = blurRadius;
 			forcePerformBlur();
+		}else{
+			mBlurred = false;
+			blurIfNotPreviously();
 		}
 		
 	}
