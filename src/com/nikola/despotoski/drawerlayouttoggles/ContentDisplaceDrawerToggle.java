@@ -118,7 +118,7 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 		return mActivity.findViewById(android.R.id.content);
 	}
 	private boolean isOpen(){
-		return mDrawerLayout.isDrawerOpen(GravityCompat.START);
+		return mDrawerLayout.isDrawerOpen(mGravity);
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

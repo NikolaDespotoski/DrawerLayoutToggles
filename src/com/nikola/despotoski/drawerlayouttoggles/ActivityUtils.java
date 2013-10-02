@@ -41,7 +41,7 @@ public class ActivityUtils {
         try {
         if (!parentOfHome.getClass().getName().contains("ActionBarView")) {
             parentOfHome = parentOfHome.getParent(); 
-            Class absAbv = parentOfHome.getClass().getSuperclass(); //ActionBarView -> AbsActionBarView class
+            Class<?> absAbv = parentOfHome.getClass().getSuperclass(); //ActionBarView -> AbsActionBarView class
             Field menuPresenter = absAbv.getDeclaredField("mActionMenuPresenter");
 			 // ActionMenuPresenter is the object that calls openOverflowMenu() closeOverflowMenu()
             menuPresenter.setAccessible(true); 									  // and contains the overflow button view.

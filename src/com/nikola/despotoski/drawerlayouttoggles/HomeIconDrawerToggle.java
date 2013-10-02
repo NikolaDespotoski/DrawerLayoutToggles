@@ -17,7 +17,6 @@ public class HomeIconDrawerToggle implements DrawerToggle{
 	public static final int ALWAYS_ANIMATE_OVERFLOW_BUTTON = 0;
 	public static final int ANIMATE_OVERFLOW_ONLY_IF_RIGHT_DRAWER = 1;
 	private Activity mActivity;
-	private View mLogoView;
 	private DrawerLayout mDrawerLayout;
 	private float mPreviousDegrees;
 	private float mTargetRotateAngle;
