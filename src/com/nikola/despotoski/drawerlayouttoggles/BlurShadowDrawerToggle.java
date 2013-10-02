@@ -13,13 +13,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Allocation.MipmapControl;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +60,7 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 		final ViewTreeObserver vto = mDrawerLayout.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
 
+			@SuppressLint("NewApi")
 			@Override
 			public void onGlobalLayout() {
 				getDrawerMinusShadow();
@@ -79,7 +80,10 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 					blurIfNotPreviously();
 				}
 				if(vto.isAlive()){
-					vto.removeOnGlobalLayoutListener(this);
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN )
+						vto.removeOnGlobalLayoutListener(this);
+					else
+						vto.removeGlobalOnLayoutListener(this);
 				}
 				
 			}});
@@ -191,36 +195,16 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 			mRadiusTask = radius;
 		}
 		private Bitmap blurBitmap(Context context, Bitmap b, float radius){
-	        Log.i("blurOverlay ", "Entry; Radius: 	"+radius);
-	        Bitmap bitmap = b.copy(b.getConfig(), true);
-	        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-	             RenderScript rs = RenderScript.create(context);
-	             Allocation input = Allocation.createFromBitmap(rs, b, Allocation.MipmapControl.MIPMAP_NONE,
-	                    Allocation.USAGE_SCRIPT);
-	             Allocation output = Allocation.createTyped(rs, input.getType());
-	             ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+//	        Log.i("blurOverlay ", "Entry; Radius: 	"+radius);
+				Bitmap bitmap = b.copy(b.getConfig(), true);
+	        	RenderScript renderScriptSupport = RenderScript.create(context);
+	        	Allocation input = Allocation.createFromBitmap(renderScriptSupport, bitmap, MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+	        	Allocation output = Allocation.createTyped(renderScriptSupport, input.getType());
+	        	ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(renderScriptSupport, Element.U8_4(renderScriptSupport));
 	            script.setRadius(radius);
-	            script.setInput(input);
-	            script.forEach(output);
-	            output.copyTo(bitmap);
-	        }else{
-	        	android.support.v8.renderscript.RenderScript mRenderScriptSupport = android.support.v8.renderscript.RenderScript.create(context);
-	        	
-	        	android.support.v8.renderscript.Allocation input = android.support.v8.renderscript.Allocation.createFromBitmap(mRenderScriptSupport, bitmap, 
-	        			android.support.v8.renderscript.Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-	  
-	        	  final android.support.v8.renderscript.Allocation output = 
-	        			  android.support.v8.renderscript.Allocation.createTyped(mRenderScriptSupport, input.getType());
-	        	   
-	        	  final android.support.v8.renderscript.ScriptIntrinsicBlur script = 
-	        			   android.support.v8.renderscript.ScriptIntrinsicBlur.create(mRenderScriptSupport, 
-	        					   android.support.v8.renderscript.Element.U8_4(mRenderScriptSupport));
-	               
-	        	  script.setRadius(radius);
 	               script.setInput(input);
 	               script.forEach(output);
 	               output.copyTo(bitmap);
-	        }
 			return bitmap;
 		}
 		@Override
