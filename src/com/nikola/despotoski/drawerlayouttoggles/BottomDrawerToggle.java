@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.GravityCompat;
@@ -59,21 +57,17 @@ public class BottomDrawerToggle implements DrawerToggle {
 					removeOnGlobalLayoutListener(mToggle, this);
 				}});
 		}
-		mSlidingDrawable = new SlideDrawable(new BitmapDrawable(activity.getResources(),BitmapFactory.decodeResource(activity.getResources(), resId)));
+		mSlidingDrawable = new SlideDrawable(activity.getResources().getDrawable(resId));
 		mToggle.setImageDrawable(mSlidingDrawable);
 		mParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.BOTTOM|gravity);
-		FrameLayout fl = (FrameLayout) activity.findViewById(android.R.id.content);
-		if(gravity == GravityCompat.START || gravity == Gravity.LEFT){
+		FrameLayout contentView = (FrameLayout) activity.findViewById(android.R.id.content);
+		if(gravity == GravityCompat.START || gravity == Gravity.LEFT)
 			mParams.leftMargin = -(mToggle.getDrawable().getIntrinsicWidth()/2);
-		}else{
+		else
 			mParams.rightMargin = -(mToggle.getDrawable().getIntrinsicWidth()/2);
-		}
 		mParams.bottomMargin = (int) padding;
-		fl.addView(mToggle, mParams);
+		contentView.addView(mToggle, mParams);
 		mToggle.setOnClickListener(mInternalToggleClickListener);
-
-		
-		
 	}
 	@Override
 	public void onDrawerClosed(View arg0) {
@@ -122,13 +116,12 @@ public class BottomDrawerToggle implements DrawerToggle {
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
-		// TODO Auto-generated method stub
-		
+		syncState();
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 	private boolean isOpen(){
@@ -153,13 +146,12 @@ public class BottomDrawerToggle implements DrawerToggle {
 	    }
 	}
 	
-	 private class SlideDrawable extends Drawable
-	    implements Drawable.Callback
+	 private class SlideDrawable extends Drawable implements Drawable.Callback
 	  {
-	    private BitmapDrawable mWrapped;
+	    private Drawable mWrapped;
 	    private float mOffset;
 
-	    public SlideDrawable(BitmapDrawable wrapped) {
+	    public SlideDrawable(Drawable wrapped) {
 	      this.mWrapped = wrapped;
 	    }
 
@@ -174,8 +166,7 @@ public class BottomDrawerToggle implements DrawerToggle {
 	      if(mGravity == GravityCompat.START || mGravity == Gravity.LEFT)
 	    	  canvas.clipRect(target, 0, mWrapped.getIntrinsicWidth(), mWrapped.getIntrinsicHeight());
 	      else
-	    	  canvas.clipRect(0, 0, mWrapped.getIntrinsicWidth() - target,mWrapped.getIntrinsicHeight());
-		
+	    	  canvas.clipRect(0, 0, mWrapped.getIntrinsicWidth() - target,mWrapped.getIntrinsicHeight());		
 	      this.mWrapped.draw(canvas);
 	      canvas.restore();
 	    }
