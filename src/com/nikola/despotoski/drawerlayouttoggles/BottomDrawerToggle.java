@@ -78,11 +78,13 @@ public class BottomDrawerToggle implements DrawerToggle {
 	@Override
 	public void onDrawerClosed(View arg0) {
 		mSlidingDrawable.setOffset(0.0f);
+		mToggle.setOnClickListener(mInternalToggleClickListener);
 	}
 
 	@Override
 	public void onDrawerOpened(View arg0) {
 		mSlidingDrawable.setOffset(1.0f);
+		mToggle.setOnClickListener(null);
 		
 	}
 	
