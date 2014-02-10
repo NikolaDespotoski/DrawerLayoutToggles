@@ -4,7 +4,8 @@ DrawerLayoutToggles
 #Description
 A set of navigation drawer toggle effects. Wrapper for using multiple custom Toggles in parallel. Wrapper for using ActionBarDrawerToggle with other toggles. 
 
-#Sample APK: https://db.tt/vus4McKy
+#Sample APK:
+https://db.tt/vus4McKy
 
 #Usage:
 * Import the library project and set it to your project.
