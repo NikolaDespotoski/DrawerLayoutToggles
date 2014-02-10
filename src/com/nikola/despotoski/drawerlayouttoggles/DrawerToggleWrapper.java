@@ -20,6 +20,15 @@ public class DrawerToggleWrapper implements DrawerToggle{
 	public void addPartnerToggle(DrawerToggle toggle){
 		mListToggles.add(toggle);
 	}
+	public boolean removePartnerToggle(DrawerToggle toggle){
+		if(toggle != null) toggle.release();
+		return mListToggles.remove(toggle);
+	}
+	public DrawerToggle removePartnerToggleAtIndex(int index){
+		DrawerToggle toggle = mListToggles.remove(index);
+		if(toggle != null) toggle.release();
+		return mListToggles.remove(index);
+	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		for(DrawerToggle toggle : mListToggles){
@@ -72,6 +81,12 @@ public class DrawerToggleWrapper implements DrawerToggle{
 			toggle.syncState();
 		}
 		
+	}
+	@Override
+	public void release() {
+		for(DrawerToggle toggle : mListToggles){
+			toggle.release();
+		}
 	}
 	
 }

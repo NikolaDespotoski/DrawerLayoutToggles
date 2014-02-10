@@ -9,4 +9,5 @@ public interface DrawerToggle extends DrawerListener{
 	public void syncState();
 	public void onConfigurationChanged(Configuration config);
 	public boolean onOptionsItemSelected(MenuItem menuItem);
+	void release();
 }

@@ -307,5 +307,11 @@ public class BottomDrawerToggle implements DrawerToggle {
 	    }
 	  }
 
+	@Override
+	public void release() {
+		FrameLayout contentView = (FrameLayout) mActivity.findViewById(android.R.id.content);
+		contentView.removeView(mToggle);
+	}
+
 	  
 }

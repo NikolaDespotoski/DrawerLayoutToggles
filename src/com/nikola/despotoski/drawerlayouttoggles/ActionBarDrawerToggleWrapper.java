@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -24,9 +25,12 @@ public class ActionBarDrawerToggleWrapper extends ActionBarDrawerToggle{
 		mListToggles.add(toggle);
 	}
 	public boolean removePartnerToggle(DrawerToggle dt){
+		if(dt != null) dt.release();
 		return mListToggles.remove(dt);
 	}
 	public DrawerToggle removePartnerToggleAtIndex(int index){
+		DrawerToggle toggle = mListToggles.remove(index);
+		if(toggle != null) toggle.release();
 		return mListToggles.remove(index);
 		
 	}

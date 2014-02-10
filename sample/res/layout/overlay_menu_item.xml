@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:focusable="true"
+    android:paddingLeft="4dip"
+    android:paddingRight="4dip"
+    style="?android:attr/actionButtonStyle">
+    <ImageButton android:id="@+id/imageButton"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:visibility="gone"
+                 android:layout_marginTop="4dip"
+                 android:layout_marginBottom="4dip"
+                 android:layout_marginLeft="4dip"
+                 android:layout_marginRight="4dip"
+                 android:scaleType="fitCenter"
+                 android:adjustViewBounds="true"
+                 android:background="@null"
+                 android:focusable="false" />
+    <Button android:id="@+id/textButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/actionMenuTextAppearance"
+            style="?android:attr/buttonStyleSmall"
+            android:textColor="?android:attr/actionMenuTextColor"
+            android:singleLine="true"
+            android:ellipsize="none"
+            android:background="@null"
+            android:paddingTop="4dip"
+            android:paddingBottom="4dip"
+            android:paddingLeft="4dip"
+            android:paddingRight="4dip"
+            android:focusable="false" />
+
+</FrameLayout>

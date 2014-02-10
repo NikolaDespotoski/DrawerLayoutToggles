@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   
+    <item android:id="@+id/toggles" android:showAsAction="ifRoom" 
+        android:title="Individual" android:orderInCategory="1">
+        <menu >
+        <group android:id="@+id/individual"  android:showAsAction="ifRoom" android:checkableBehavior="single">
+            <item android:id="@+id/content_displace" android:checkable="false" android:title="@string/content_displacement_name" />
+            <item android:id="@+id/fading_drawer_toggle"  android:checkable="false" android:title="@string/fading_drawer_name" />
+             <item android:id="@+id/blur_shadow_drawer_toggle"  android:checkable="false" android:title="@string/blur_drawer_name" />
+             <item android:id="@+id/home_drawer_toggle"  android:checkable="false" android:title="@string/home_icon_drawer_name" />
+              <item android:id="@+id/bottom_drawer_toggle"  android:checkable="false" android:title="@string/bottom_drawer_name" />
+        </group>   
+        </menu>
+    </item>
+     <item android:id="@+id/actiobartoggle_combine"  android:showAsAction="ifRoom" 
+        android:title="Combine ActionBarToggle with..." android:orderInCategory="2">
+        <menu >
+        <group android:id="@+id/actionbartoggle_combine_group" android:checkableBehavior="all">
+            <item android:id="@+id/actionbartoggle_combine_content_displace"   android:checkable="true" android:title="@string/content_displacement_name" />
+            <item android:id="@+id/actionbartoggle_combine_fading_drawer_toggle"  android:checkable="true" android:title="@string/fading_drawer_name" />
+             <item android:id="@+id/actionbartoggle_combine_blur_shadow_drawer_toggle"   android:checkable="true" android:title="@string/blur_drawer_name" />
+             <item android:id="@+id/actionbartoggle_combine_home_drawer_toggle"  android:checkable="true" android:title="@string/home_icon_drawer_name" />
+             <item android:id="@+id/actionbartoggle_combine_bottom_drawer_toggle"  android:checkable="true" android:title="@string/bottom_drawer_name" />
+        </group>   
+        </menu>
+    </item>
+     <item android:id="@+id/idividual_combine"  android:showAsAction="ifRoom" 
+        android:title="Combine all toggles" android:orderInCategory="3">
+        <menu >
+        <group android:id="@+id/combine_individual_group" android:checkableBehavior="all">
+            <item android:id="@+id/combine_individual_content_displace" android:title="@string/content_displacement_name" />
+            <item android:id="@+id/combine_individual_fading_drawer_toggle" android:title="@string/fading_drawer_name" />
+             <item android:id="@+id/combine_individual_blur_shadow_drawer_toggle" android:title="@string/blur_drawer_name" />
+             <item android:id="@+id/combine_individual_home_drawer_toggle" android:title="@string/home_icon_drawer_name" />
+              <item android:id="@+id/combine_individual_bottom_drawer_toggle" android:title="@string/bottom_drawer_name" />
+        </group>   
+        </menu>
+    </item>
+</menu>

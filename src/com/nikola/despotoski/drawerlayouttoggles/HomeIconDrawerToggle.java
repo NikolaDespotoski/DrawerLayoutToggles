@@ -118,5 +118,9 @@ public class HomeIconDrawerToggle implements DrawerToggle{
 	private boolean isRightDrawer(){
 		return mGravity == GravityCompat.END || mGravity == Gravity.RIGHT;
 	}
+	@Override
+	public void release() {
+		this.onDrawerSlide(null, 0f);	
+	}
 	
 }

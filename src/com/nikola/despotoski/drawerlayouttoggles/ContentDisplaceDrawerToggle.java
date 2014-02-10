@@ -1,6 +1,7 @@
 package com.nikola.despotoski.drawerlayouttoggles;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -36,19 +37,21 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 	private DrawerLayout mDrawerLayout;
 	private int mGravity;
 	private int mScreenWidth;
-	public ContentDisplaceDrawerToggle(Activity a, DrawerLayout d, int containerResId){
+	public ContentDisplaceDrawerToggle(Activity a, DrawerLayout d, int containerResId, int gravity){
 		mActivity = a;
 		mContentView = getContentView();
 		mDrawerLayout = d;
 		setContentContainer(containerResId);
 		mScreenWidth = ScreenUtils.getScreenWidth(a);
+		mGravity = gravity;
 	}
-	public ContentDisplaceDrawerToggle(Activity a, DrawerLayout d, View containerView){
+	public ContentDisplaceDrawerToggle(Activity a, DrawerLayout d, View containerView, int gravity){
 		mActivity = a;
 		mContentView = getContentView();
 		mDrawerLayout = d;
 		setContentContainer(containerView);
 		mScreenWidth = ScreenUtils.getScreenWidth(a);
+		mGravity = gravity;
 	}
 	public void setContentContainer(View v){
 		mContentView = v;
@@ -68,6 +71,7 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 		
 	}
 
+	@SuppressLint("NewApi")
 	private void updateContentMoved(float translationX) {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
 			mContentView.setTranslationX(translationX);
@@ -123,7 +127,7 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(isOpen()){
-			mDrawerLayout.closeDrawer(GravityCompat.START);
+			mDrawerLayout.closeDrawer(mGravity);
 		}
 		return false;
 	}
@@ -131,6 +135,10 @@ public class ContentDisplaceDrawerToggle implements DrawerToggle{
 	public void onConfigurationChanged(Configuration config) {
 		syncState();
 		
+	}
+	@Override
+	public void release() {
+		updateContentMoved(0f);//restore to original state 
 	}
 
 

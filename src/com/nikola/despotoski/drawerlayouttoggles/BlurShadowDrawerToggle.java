@@ -17,6 +17,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v8.renderscript.*;
 import android.support.v8.renderscript.Allocation.MipmapControl;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,23 +61,7 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 			@SuppressLint("NewApi")
 			@Override
 			public void onGlobalLayout() {
-				getDrawerMinusShadow();
-				mDrawable = Bitmap.createBitmap(behindDrawer.getWidth(),behindDrawer.getHeight(),Config.ARGB_8888);
-				Canvas c =new Canvas(mDrawable);
-				c.drawColor(Color.TRANSPARENT);
-				behindDrawer.draw(c);
-				mOriginalRect = new Rect();
-				mBehindDrawerView.getLocalVisibleRect(mOriginalRect);
-				blurIfNotPreviously();
-				if(isOpen()){
-					mBlurred = false;
-					onDrawerSlide(null, 1.0f);
-					mDrawerLayout.invalidateDrawable(mBlurDrawable);
-					
-				}else{
-					mBlurred = false;
-					blurIfNotPreviously();
-				}
+				blurFirstTime();
 				if(vto.isAlive()){
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN )
 						vto.removeOnGlobalLayoutListener(this);
@@ -133,8 +118,7 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 
 	@Override
 	public void syncState() {
-		
-		
+		blurFirstTime();		
 	}
 
 	@Override
@@ -189,6 +173,26 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 		asyncBlur.execute(mDrawable);
 		}
 	}
+	
+	private void blurFirstTime(){
+		getDrawerMinusShadow();
+		mDrawable = Bitmap.createBitmap(mBehindDrawerView.getWidth(),mBehindDrawerView.getHeight(),Config.ARGB_8888);
+		Canvas c =new Canvas(mDrawable);
+		c.drawColor(Color.TRANSPARENT);
+		mBehindDrawerView.draw(c);
+		mOriginalRect = new Rect();
+		mBehindDrawerView.getLocalVisibleRect(mOriginalRect);
+		blurIfNotPreviously();
+		if(isOpen()){
+			mBlurred = false;
+			onDrawerSlide(null, 1.0f);
+			mDrawerLayout.invalidateDrawable(mBlurDrawable);
+			
+		}else{
+			mBlurred = false;
+			blurIfNotPreviously();
+		}
+	}
 	@SuppressLint("NewApi")
 
 	private class AsyncBlur extends AsyncTask<Bitmap, Void, Bitmap>{
@@ -229,13 +233,13 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 		@Override
 		public void draw(final Canvas arg0) {
 			if(mDrawable!=null && !mDrawable.isRecycled()){
-				//long t0 = System.currentTimeMillis();
+				long t0 = System.currentTimeMillis();
 				// 0ms >= Time <= 1ms
 				Rect original = new Rect(mOriginalRect);
 				original.left = mTargetX;
 				Rect cut = new Rect(mTargetX,0, mDrawable.getWidth(), mOriginalRect.bottom);
 				arg0.drawBitmap(mDrawable,original, cut, null);
-				//Log.i("draw()", "Time delta: "+ (System.currentTimeMillis() - t0));
+				Log.i("draw()", "Time delta: "+ (System.currentTimeMillis() - t0));
 			}
 			
 		}
@@ -258,6 +262,11 @@ public class BlurShadowDrawerToggle implements DrawerToggle{
 			
 		}
 		
+	}
+	@Override
+	public void release() {
+		mDrawable.recycle();
+		mDrawable = null;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.nikola.despotoski.drawerlayouttoggles;
 
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v4.view.GravityCompat;
@@ -59,6 +60,7 @@ public class FadingDrawerToggle implements DrawerToggle {
 		mPreviousViewAlpha = MAX_VIEW_ALPHA;
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onDrawerSlide(View drawerView, float slideOffset) {
 		if(!mEnabled)
@@ -94,5 +96,10 @@ public class FadingDrawerToggle implements DrawerToggle {
 			mDrawerLayout.closeDrawer(GravityCompat.START);
 		}
 		return false;
+	}
+	@Override
+	public void release() {
+		// TODO Auto-generated method stub
+		
 	}
 }
